@@ -1,6 +1,6 @@
 # Live2D Widget
 
-一个轻量级的网页 Live2D 看板娘组件，基于 Cubism 5 SDK，支持本地模型加载。
+一个轻量级的网页 Live2D 看板娘组件，基于 Cubism 5 SDK，使用本地模型加载。
 
 ## 特性
 
@@ -17,9 +17,10 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/yourusername/live2d-widget.git
-cd live2d-widget
-npm install
+git clone https://github.com/(yourusername)/live2d-widget.git ----仓库位置
+cd live2d-widget ----本地项目位置
+
+tips:不懂的话可以直接下载zip包，解压到目标目录就行，或者去原作者仓库，有更简单的使用方法
 ```
 
 ### 2. 添加模型
@@ -57,6 +58,13 @@ npx http-server -p 8080
 ```
 
 访问 `http://localhost:8080/demo/demo.html`
+例图：
+![Live2D Widget 演示](demo/screenshots/screenshot-1.png)
+
+![交互效果展示](demo/screenshots/screenshot-2.png)
+
+![多模型切换](demo/screenshots/screenshot-3.png)
+tips:本项目无自带模型，需要自己添加Cubism 5 模型文件
 
 ## 项目结构
 
@@ -116,7 +124,7 @@ initWidget({
 
 ### 贴图压缩
 
-使用内置脚本压缩贴图：
+可使用内置脚本压缩贴图(选用功能)：
 
 ```bash
 node scripts/compress-textures.mjs
@@ -164,6 +172,6 @@ Live2D 相关代码的使用请遵守对应的许可：
 ## 致谢
 
 - [Live2D](https://www.live2d.com/) - Cubism SDK
-- [stevenjoezhang/live2d-widget](https://github.com/stevenjoezhang/live2d-widget) - 原始项目
+- [stevenjoezhang/live2d-widget](https://github.com/stevenjoezhang/live2d-widget) - 原始项目，再次感谢
 - [FGHRSH](https://www.fghrsh.net/post/123.html) - 看板娘教程
 - [一言](https://hitokoto.cn) - 一言 API
