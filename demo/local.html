@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Live2D 本地模型测试</title>
+</head>
+<body>
+<canvas id="live2d" width="800" height="800"></canvas>
+<script src="../dist/waifu-tips.js"></script>
+<script>
+initWidget({
+  waifuPath: '../dist/waifu-tips.json',
+  cubism5Path: '../dist/live2dcubismcore.min.js',
+  models: [{
+    name: 'yachiyo',
+    paths: ['../model/yachiyo/八千代辉夜姬.model3.json'],
+    message: '模型加载成功！'
+  }]
+});
+</script>
+</body>
+</html>

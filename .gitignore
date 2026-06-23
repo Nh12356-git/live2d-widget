@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build output
+build/
+dist/
+
+# Model textures (large files)
+model/yachiyo/八千代辉夜姬.8192/
+model/yachiyo/texture_low/
+
+# Cubism SDK source
+src/CubismSdkForWeb-*/
+build/CubismSdkForWeb-*/
+
+# IDE / System
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+backup/
