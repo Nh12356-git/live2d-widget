@@ -104,7 +104,7 @@ class LocalModelManager {
     return result;
   }
 
-  private async loadLive2D(modelSettingPath: string, modelSetting: object) {
+  private async loadLive2D(modelSettingPath: string) {
     if (this.loading) {
       logger.warn('Still loading. Abort.');
       return;
@@ -135,8 +135,7 @@ class LocalModelManager {
 
   async loadModel(message: string | string[]) {
     const modelSettingPath = this.models[this.modelId].paths[this.modelTexturesId];
-    const modelSetting = await this.fetchWithCache(modelSettingPath);
-    await this.loadLive2D(modelSettingPath, modelSetting);
+    await this.loadLive2D(modelSettingPath);
     showMessage(message, 4000, 10);
   }
 
