@@ -1,6 +1,8 @@
 # Live2D Widget
 
-一个轻量级的网页 Live2D 看板娘组件，基于 Cubism 5 SDK，使用本地模型加载。
+一个轻量级的网页 Live2D 看板娘组件，基于 Cubism 5 SDK，支持本地模型加载。
+
+> 本仓库不包含模型文件，需自行准备 Cubism 5 模型。
 
 ## 特性
 
@@ -17,13 +19,20 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/(yourusername)/live2d-widget.git ----仓库位置
-cd live2d-widget ----本地项目位置
-
-tips:不懂的话可以直接下载zip包，解压到目标目录就行，或者去原作者仓库，有更简单的使用方法
+git clone https://github.com/Nh12356-git/live2d-widget.git
+cd live2d-widget
 ```
 
-### 2. 添加模型
+也可以直接下载 ZIP 包解压到目标目录，或前往[原作者仓库](https://github.com/stevenjoezhang/live2d-widget)获取更简单的使用方法。
+
+### 2. 安装依赖并构建
+
+```bash
+npm install
+npm run build
+```
+
+### 3. 添加模型
 
 将 Cubism 5 模型放到 `model/` 目录下：
 
@@ -37,7 +46,7 @@ model/
       texture_01.png
 ```
 
-### 3. 配置模型
+### 4. 配置模型
 
 编辑 `dist/waifu-tips.json`，修改 `models` 数组：
 
@@ -51,46 +60,34 @@ model/
 }
 ```
 
-### 4. 启动开发服务器
+### 5. 启动本地服务器
 
 ```bash
 npx http-server -p 8080
 ```
 
 访问 `http://localhost:8080/demo/demo.html`
-例图：
-![Live2D Widget 演示](demo/screenshots/screenshot-1.png)
 
-![交互效果展示](demo/screenshots/screenshot-2.png)
+## 预览
 
-![多模型切换](demo/screenshots/screenshot-3.png)
-
-tips:自己添加或替换Cubism 5 模型文件于model目录下
+<img src="demo/screenshots/screenshot-1.png" width="280">
+<img src="demo/screenshots/screenshot-2.png" width="280">
+<img src="demo/screenshots/screenshot-3.png" width="270">
 
 ## 项目结构
 
-```
-├── src/                    # 源代码
-│   ├── cubism5/           # Cubism 5 集成
-│   ├── localmodel.ts      # 本地模型管理器
-│   ├── widget.ts          # 组件初始化
-│   ├── tools.ts           # 工具栏
-│   ├── message.ts         # 消息系统
-│   └── ...
-├── dist/                  # 构建产物
-│   ├── autoload.js        # 自动加载脚本
-│   ├── waifu-tips.js      # 打包后的脚本
-│   ├── waifu-tips.json    # 提示消息配置
-│   ├── waifu.css          # 样式表
-│   └── live2dcubismcore.min.js
-├── model/                 # 模型文件
-├── demo/                  # 演示页面
-└── scripts/               # 构建脚本
-```
+| 目录 | 说明 |
+|------|------|
+| `src/` | TypeScript 源代码 |
+| `src/cubism5/` | Cubism 5 集成代码 |
+| `dist/` | 构建产物 |
+| `model/` | 模型文件（需自行添加） |
+| `demo/` | 演示页面 |
+| `scripts/` | 构建脚本 |
 
 ## 配置
 
-### autoload.js 配置
+### autoload.js
 
 编辑 `dist/autoload.js` 中的配置：
 
@@ -105,7 +102,7 @@ initWidget({
 });
 ```
 
-### waifu-tips.json 配置
+### waifu-tips.json
 
 编辑 `dist/waifu-tips.json` 配置模型和提示消息：
 
@@ -123,56 +120,36 @@ initWidget({
 }
 ```
 
-### 贴图压缩
+### 贴图压缩（可选）
 
-可使用内置脚本压缩贴图(选用功能)：
+使用内置脚本压缩贴图：
 
 ```bash
 node scripts/compress-textures.mjs
 ```
 
-这会将 8192px 的贴图压缩到 4096px，减少约 80% 的文件大小。
+将 8192px 的贴图压缩到 4096px，减少约 80% 的文件大小。
 
 ## 开发
-
-### 构建
 
 ```bash
 npm install
 npm run build
-```
-
-### 本地测试
-
-```bash
 npx http-server -p 8080
 ```
-
-访问 `http://localhost:8080/demo/demo.html`
-
-## 项目结构
-
-| 目录 | 说明 |
-|------|------|
-| `src/` | TypeScript 源代码 |
-| `src/cubism5/` | Cubism 5 集成代码 |
-| `src/CubismSdkForWeb-5-r.5/` | Cubism SDK 源码 |
-| `dist/` | 构建产物 |
-| `model/` | 模型文件 |
-| `demo/` | 演示页面 |
-| `scripts/` | 构建脚本 |
 
 ## 许可证
 
 本项目基于 GNU General Public License v3 协议开源。
 
 Live2D 相关代码的使用请遵守对应的许可：
+
 - Live2D Cubism SDK 5: [Live2D Proprietary Software License](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_cn.html)
 - Live2D Cubism Components: [Live2D Open Software License](https://www.live2d.com/eula/live2d-open-software-license-agreement_cn.html)
 
 ## 致谢
 
 - [Live2D](https://www.live2d.com/) - Cubism SDK
-- [stevenjoezhang/live2d-widget](https://github.com/stevenjoezhang/live2d-widget) - 原始项目，再次感谢
+- [stevenjoezhang/live2d-widget](https://github.com/stevenjoezhang/live2d-widget) - 原始项目
 - [FGHRSH](https://www.fghrsh.net/post/123.html) - 看板娘教程
 - [一言](https://hitokoto.cn) - 一言 API
