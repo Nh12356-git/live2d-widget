@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live2D Widget 测试页面</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; }
+    .layout { display: flex; height: 100vh; }
+    .left-panel { flex: 1; background: #fff; transition: background 0.3s; }
+    .right-panel { width: 520px; overflow-y: auto; padding: 20px; border-right: 1px solid #ddd; background: #fafafa; }
+    h1 { font-size: 18px; margin-bottom: 8px; }
+    p { color: #666; margin-bottom: 15px; font-size: 13px; }
+    .test-section { margin-bottom: 16px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
+    .test-section h2 { font-size: 14px; margin-bottom: 8px; color: #555; }
+    button { padding: 5px 12px; margin: 2px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #fff; font-size: 12px; }
+    button:hover { background: #f0f0f0; }
+    button.active { background: #e0f0ff; border-color: #0684bd; color: #0684bd; }
+    .log { background: #f5f5f5; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 11px; max-height: 150px; overflow-y: auto; }
+    .status { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+    .status-ok { background: #2ecc71; }
+    .status-err { background: #e74c3c; }
+    .status-wait { background: #f39c12; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .bg-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ddd; cursor: pointer; padding: 0; }
+    .bg-btn:hover { border-color: #999; }
+    .bg-btn.active { border-color: #0684bd; box-shadow: 0 0 0 2px rgba(6,132,189,0.3); }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- 左侧：测试面板 -->
+  <div class="right-panel">
+    <h1>Live2D Widget 测试</h1>
+    <p>左侧为模型区域，右侧为测试面板。</p>
+
+    <div class="test-section">
+      <h2>日志</h2>
+      <div class="log" id="log"></div>
+    </div>
+
+    <div class="test-section" id="status-panel">
+      <h2>运行状态</h2>
+      <div id="status-list" style="font-size:12px; line-height:1.8;"></div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <div class="test-section">
+          <h2>消息系统</h2>
+          <button onclick="testMessage()">普通消息</button>
+          <button onclick="testHighPriority()">高优先级</button>
+          <button onclick="testLowPriority()">低优先级</button>
+          <button onclick="testLongMessage()">长文本</button>
+          <button onclick="testHtmlMessage()">HTML</button>
+        </div>
+
+        <div class="test-section">
+          <h2>模型操作</h2>
+          <button onclick="testSwitchModel()">切换模型</button>
+          <button onclick="testSwitchTexture()">切换贴图</button>
+          <button onclick="testModelInfo()">模型信息</button>
+        </div>
+
+        <div class="test-section">
+          <h2>模型导入</h2>
+          <div id="import-drop" style="border:2px dashed #ccc; border-radius:8px; padding:16px; text-align:center; cursor:pointer; background:#fafafa; transition:border-color .2s, background .2s;">
+            <div style="font-size:13px; color:#555;">拖拽 .zip 模型压缩包到此处</div>
+            <div style="font-size:11px; color:#999; margin-top:4px;">或点击选择文件（≤200MB）</div>
+            <input type="file" id="import-file" accept=".zip" style="display:none;">
+          </div>
+          <div id="import-status" style="font-size:12px; margin-top:8px; line-height:1.7;"></div>
+          <div id="import-list" style="margin-top:8px; font-size:12px; line-height:1.7;"></div>
+        </div>
+
+        <div class="test-section">
+          <h2>表情切换</h2>
+          <div id="expression-buttons"></div>
+        </div>
+
+        <div class="test-section">
+          <h2>事件触发</h2>
+          <button onclick="testHoverBody()">悬停身体</button>
+          <button onclick="testTapBody()">点击身体</button>
+          <button onclick="testCopy()">复制事件</button>
+          <button onclick="testVisibility()">可见性切换</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="test-section">
+          <h2>工具栏</h2>
+          <button onclick="testHitokoto()">一言</button>
+          <button onclick="testPhoto()">截图</button>
+          <button onclick="testQuit()">退出</button>
+          <button onclick="testToggle()">重新显示</button>
+        </div>
+
+        <div class="test-section">
+          <h2>拖拽模式</h2>
+          <button id="btn-drag" onclick="testDragToggle()">开启拖拽</button>
+          <button onclick="testDragReset()">复位位置</button>
+        </div>
+
+        <div class="test-section">
+          <h2>缩放控制</h2>
+          <button onclick="testScale(0.5)">0.5x</button>
+          <button onclick="testScale(1.0)">1.0x</button>
+          <button onclick="testScale(1.5)">1.5x</button>
+          <button onclick="testScale(2.0)">2.0x</button>
+          <button onclick="testScale(3.0)">3.0x</button>
+          <button onclick="testScale(5.0)">5.0x</button>
+        </div>
+
+        <div class="test-section">
+          <h2>布局检测</h2>
+          <button onclick="testLayoutInfo()">检测布局</button>
+          <button onclick="testBubbleAbove()">气泡→上方</button>
+          <button onclick="testBubbleBelow()">气泡→下方</button>
+        </div>
+
+        <div class="test-section">
+          <h2>测试背景</h2>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button class="bg-btn active" style="background:#fff" onclick="testBg('#fff')" title="白色"></button>
+            <button class="bg-btn" style="background:#000" onclick="testBg('#000')" title="黑色"></button>
+            <button class="bg-btn" style="background:#2ecc71" onclick="testBg('#2ecc71')" title="绿色"></button>
+            <button class="bg-btn" style="background:#3498db" onclick="testBg('#3498db')" title="蓝色"></button>
+            <button class="bg-btn" style="background:#e74c3c" onclick="testBg('#e74c3c')" title="红色"></button>
+            <button class="bg-btn" style="background:#f1c40f" onclick="testBg('#f1c40f')" title="黄色"></button>
+            <button class="bg-btn" style="background:#9b59b6" onclick="testBg('#9b59b6')" title="紫色"></button>
+            <button class="bg-btn" style="background:repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 50%/16px 16px" onclick="testBg('checker')" title="棋盘格"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右侧：模型区域 -->
+  <div class="left-panel"></div>
+</div>
+
+<script type="module" src="../dist/autoload.js"></script>
+
+<script type="module">
+  import { showMessage } from '../dist/waifu-tips.js';
+
+  const BASE_W = 165;
+  const BASE_H = 240;
+
+  function log(msg) {
+    const el = document.getElementById('log');
+    const time = new Date().toLocaleTimeString();
+    el.innerHTML += `[${time}] ${msg}<br>`;
+    el.scrollTop = el.scrollHeight;
+  }
+
+  function setStatus(id, ok, text) {
+    let el = document.getElementById('st-' + id);
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'st-' + id;
+      document.getElementById('status-list').appendChild(el);
+    }
+    const cls = ok === true ? 'status-ok' : ok === false ? 'status-err' : 'status-wait';
+    el.innerHTML = `<span class="status ${cls}"></span>${text}`;
+  }
+
+  function updateStatus() {
+    const waifu = document.getElementById('waifu');
+    const live2d = document.getElementById('live2d');
+    const tips = document.getElementById('waifu-tips');
+    const tool = document.getElementById('waifu-tool');
+
+    setStatus('widget', !!waifu, `容器: ${waifu ? (waifu.classList.contains('waifu-active') ? '显示' : '隐藏') : '未创建'}`);
+    setStatus('canvas', !!live2d, `画布: ${live2d ? live2d.width + 'x' + live2d.height : '不存在'}`);
+    setStatus('tips', !!tips, `气泡: ${tips ? (tips.classList.contains('waifu-tips-active') ? '可见' : '隐藏') : '不存在'}`);
+    setStatus('tool', !!tool, `工具栏: ${tool ? tool.children.length + '个按钮' : '不存在'}`);
+
+    if (waifu) {
+      const isRight = waifu.classList.contains('waifu-right');
+      const isToolLeft = waifu.classList.contains('waifu-tool-left');
+      setStatus('layout', true, `布局: 模型${isRight ? '右' : '左'}侧, 工具栏${isToolLeft ? '左' : '右'}侧`);
+      const isDrag = waifu.classList.contains('waifu-drag-active');
+      setStatus('drag', true, `拖拽: ${isDrag ? '开启' : '关闭'}`);
+      const btn = document.getElementById('btn-drag');
+      if (btn) {
+        btn.textContent = isDrag ? '关闭拖拽' : '开启拖拽';
+        btn.classList.toggle('active', isDrag);
+      }
+    }
+  }
+  setInterval(updateStatus, 1000);
+
+  // ========== 消息 ==========
+  window.testMessage = () => { log('普通消息'); showMessage('这是一条测试消息~', 3000, 5); };
+  window.testHighPriority = () => { log('高优先级'); showMessage('高优先级消息！不能被覆盖', 5000, 11); };
+  window.testLowPriority = () => { log('低优先级（应被忽略）'); showMessage('低优先级消息', 3000, 1); };
+  window.testLongMessage = () => { log('长文本'); showMessage('这是一条很长的消息用来测试气泡换行效果，看看是否能正常显示不会溢出或布局错乱。', 6000, 5); };
+  window.testHtmlMessage = () => { log('HTML'); showMessage('<b>加粗</b> <span style="color:#0099cc">蓝色</span> <i>斜体</i>', 5000, 5); };
+
+  // ========== 模型 ==========
+  window.testSwitchModel = () => {
+    log('切换模型');
+    const btn = document.querySelector('#waifu-settings .waifu-settings-item');
+    if (btn) btn.click();
+  };
+  window.testSwitchTexture = () => {
+    log('切换贴图');
+    const items = document.querySelectorAll('#waifu-settings .waifu-settings-item');
+    if (items[1]) items[1].click();
+  };
+  window.testModelInfo = () => {
+    const c = document.getElementById('live2d');
+    if (!c) { log('画布不存在'); return; }
+    const info = `buffer: ${c.width}x${c.height}, CSS: ${getComputedStyle(c).width}x${getComputedStyle(c).height}`;
+    log(info);
+    showMessage(info, 4000, 5);
+  };
+
+  // ========== 模型导入 ==========
+  const dropZone = document.getElementById('import-drop');
+  const fileInput = document.getElementById('import-file');
+  const importStatus = document.getElementById('import-status');
+  const importList = document.getElementById('import-list');
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) uploadModel(fileInput.files[0]);
+  });
+
+  ['dragenter', 'dragover'].forEach(ev => dropZone.addEventListener(ev, e => {
+    e.preventDefault();
+    dropZone.style.borderColor = '#0684bd';
+    dropZone.style.background = '#e0f0ff';
+  }));
+  ['dragleave', 'drop'].forEach(ev => dropZone.addEventListener(ev, e => {
+    e.preventDefault();
+    dropZone.style.borderColor = '#ccc';
+    dropZone.style.background = '#fafafa';
+  }));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files.length) uploadModel(files[0]);
+  });
+
+  async function uploadModel(file) {
+    if (!file.name.toLowerCase().endsWith('.zip')) {
+      importStatus.innerHTML = '<span class="status status-err"></span>仅支持 .zip 文件';
+      return;
+    }
+    const sizeMB = (file.size / 1024 / 1024).toFixed(1);
+    importStatus.innerHTML = `<span class="status status-wait"></span>正在上传 ${file.name}（${sizeMB}MB）...`;
+    log(`开始导入: ${file.name} (${sizeMB}MB)`);
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+      const res = await fetch('/api/model/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '上传失败');
+      importStatus.innerHTML = `<span class="status status-ok"></span>${data.message}，可点击「切换模型」使用`;
+      log(`导入成功: ${data.message}`);
+      showMessage(`模型「${data.name}」导入成功，可点击「切换模型」使用`, 5000, 10);
+      fileInput.value = '';
+      loadImportedModels();
+    } catch (err) {
+      importStatus.innerHTML = `<span class="status status-err"></span>${err.message}`;
+      log(`导入失败: ${err.message}`);
+      fileInput.value = '';
+    }
+  }
+
+  async function loadImportedModels() {
+    try {
+      const res = await fetch('/api/model/uploaded');
+      const data = await res.json();
+      const models = data.models || [];
+      if (!models.length) {
+        importList.innerHTML = '<div style="font-size:11px; color:#999;">暂无导入记录，模型将解压到 model/ 目录</div>';
+        return;
+      }
+      importList.innerHTML = '<div style="font-size:11px; color:#999; margin-bottom:4px;">已导入模型：</div>' +
+        models.map(m => `<div>${m.name} <span style="color:#999;">(${m.configs} 个配置)</span></div>`).join('');
+    } catch (e) {
+      importList.innerHTML = '';
+    }
+  }
+  loadImportedModels();
+
+  // ========== 表情 ==========
+  const expressions = ['笑咪咪','泪珠','眯眯眼','眼泪','xianhua','aixinyan','duzui','guzui','han','huatong','jiantou','kongbai','lei','lianhei','lianhong','lianqing','xie','xingxingyan','yuanquanyan','yun'];
+  const exprContainer = document.getElementById('expression-buttons');
+  expressions.forEach(name => {
+    const btn = document.createElement('button');
+    btn.textContent = name;
+    btn.onclick = () => testExpression(name);
+    exprContainer.appendChild(btn);
+  });
+  const rBtn = document.createElement('button');
+  rBtn.textContent = '随机';
+  rBtn.onclick = () => testExpression();
+  exprContainer.appendChild(rBtn);
+
+  window.testExpression = (name) => {
+    log(name ? `表情: ${name}` : '随机表情');
+    window.dispatchEvent(new CustomEvent('live2d:expression', { detail: name ? { name } : {} }));
+  };
+
+  // ========== 事件 ==========
+  window.testHoverBody = () => { log('hoverbody'); window.dispatchEvent(new Event('live2d:hoverbody')); };
+  window.testTapBody = () => { log('tapbody'); window.dispatchEvent(new Event('live2d:tapbody')); };
+  window.testCopy = () => { log('copy'); window.dispatchEvent(new Event('copy')); };
+  window.testVisibility = () => {
+    log('visibilitychange');
+    Object.defineProperty(document, 'hidden', { value: false, writable: true, configurable: true });
+    window.dispatchEvent(new Event('visibilitychange'));
+  };
+
+  // ========== 工具栏 ==========
+  window.testHitokoto = () => { log('一言'); document.getElementById('waifu-tool-hitokoto')?.click(); };
+  window.testPhoto = () => { log('截图'); document.getElementById('waifu-tool-photo')?.click(); };
+  window.testQuit = () => { log('退出'); document.getElementById('waifu-tool-quit')?.click(); };
+  window.testToggle = () => { log('重新显示'); document.getElementById('waifu-toggle')?.click(); };
+
+  // ========== 拖拽 ==========
+  window.testDragToggle = () => {
+    log('切换拖拽');
+    document.getElementById('waifu-tool-settings')?.click();
+    setTimeout(() => {
+      const items = document.querySelectorAll('#waifu-settings .waifu-settings-item');
+      const dragItem = Array.from(items).find(el => el.textContent.includes('拖拽'));
+      if (dragItem) dragItem.click();
+    }, 100);
+  };
+  window.testDragReset = () => {
+    log('复位位置');
+    const w = document.getElementById('waifu');
+    if (w) {
+      w.style.left = '';
+      w.style.right = '';
+      w.style.bottom = '';
+      w.classList.remove('waifu-right', 'waifu-tool-left');
+    }
+  };
+
+  // ========== 缩放 ==========
+  window.testScale = (scale) => {
+    log(`缩放: ${scale}x`);
+    const canvas = document.getElementById('live2d');
+    const container = document.getElementById('waifu-canvas');
+    if (canvas) {
+      canvas.style.width = `${BASE_W * scale}px`;
+      canvas.style.height = `${BASE_H * scale}px`;
+    }
+    if (container) {
+      container.style.width = `${BASE_W * scale}px`;
+      container.style.height = `${BASE_H * scale}px`;
+    }
+    localStorage.setItem('waifu-scale', String(scale));
+    showMessage(`大小: ${scale}x`, 2000, 5);
+  };
+
+  // ========== 布局 ==========
+  window.testLayoutInfo = () => {
+    const w = document.getElementById('waifu');
+    const c = document.getElementById('waifu-canvas');
+    const t = document.getElementById('waifu-tips');
+    const tl = document.getElementById('waifu-tool');
+    if (!w || !c) { log('看板娘未加载'); return; }
+
+    const wr = w.getBoundingClientRect();
+    const cr = c.getBoundingClientRect();
+    const tr = t?.getBoundingClientRect();
+    const tlr = tl?.getBoundingClientRect();
+
+    log([
+      `容器: L=${Math.round(wr.left)} B=${Math.round(window.innerHeight - wr.bottom)} ${Math.round(wr.width)}x${Math.round(wr.height)}`,
+      `画布: T=${Math.round(cr.top)} L=${Math.round(cr.left)} ${Math.round(cr.width)}x${Math.round(cr.height)}`,
+      tr ? `气泡: T=${Math.round(tr.top)} L=${Math.round(tr.left)} ${Math.round(tr.width)}x${Math.round(tr.height)}` : '气泡: 无',
+      tlr ? `工具: T=${Math.round(tlr.top)} L=${Math.round(tlr.left)}` : '工具: 无',
+      `class: ${w.className}`
+    ].join(' | '));
+  };
+  window.testBubbleAbove = () => {
+    const t = document.getElementById('waifu-tips');
+    if (t) { t.style.top = '-80px'; t.style.bottom = 'auto'; log('气泡→上方'); }
+  };
+  window.testBubbleBelow = () => {
+    const t = document.getElementById('waifu-tips');
+    const c = document.getElementById('waifu-canvas');
+    if (t && c) { t.style.top = `${c.offsetHeight + 10}px`; t.style.bottom = 'auto'; log('气泡→下方'); }
+  };
+
+  // ========== 背景 ==========
+  window.testBg = (color) => {
+    const panel = document.querySelector('.left-panel');
+    if (!panel) return;
+    if (color === 'checker') {
+      panel.style.background = 'repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 50%/16px 16px';
+    } else {
+      panel.style.background = color;
+    }
+    document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    log(`背景: ${color}`);
+  };
+
+  log('页面已加载，等待看板娘初始化...');
+  setTimeout(() => { updateStatus(); log('状态面板就绪'); }, 2000);
+</script>
+
+</body>
+</html>

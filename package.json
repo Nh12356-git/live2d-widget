@@ -1,0 +1,58 @@
+{
+  "name": "live2d-widgets",
+  "version": "1.0.0",
+  "description": "Live2D widget for web pages",
+  "main": "dist/waifu-tips.js",
+  "files": [
+    "build",
+    "!build/CubismSdkForWeb*",
+    "demo",
+    "dist",
+    "src",
+    "!src/CubismSdkForWeb*",
+    "README.en.md"
+  ],
+  "types": "build/waifu-tips.d.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve . -p 3000",
+    "start": "node server.js",
+    "clean": "rmdir /s /q build 2>nul & del /q dist\\waifu-tips.js dist\\waifu-tips.js.map 2>nul & rmdir /s /q dist\\chunk 2>nul & exit /b 0",
+    "clean:all": "rmdir /s /q build 2>nul & del /q dist\\waifu-tips.js dist\\waifu-tips.js.map 2>nul & rmdir /s /q dist\\chunk 2>nul & rmdir /s /q node_modules 2>nul & exit /b 0",
+    "build": "tsc && rollup -c rollup.config.js",
+    "build-dev": "rollup -c rollup.config.js -w",
+    "eslint": "eslint src/",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nh12356-git/live2d-widget.git"
+  },
+  "keywords": [
+    "Live2D",
+    "WebGL"
+  ],
+  "author": "Nh12356",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Nh12356-git/live2d-widget/issues"
+  },
+  "homepage": "https://github.com/Nh12356-git/live2d-widget#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "6.7.2",
+    "adm-zip": "^0.6.0",
+    "express": "^4.22.2",
+    "multer": "^2.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.38.0",
+    "@rollup/plugin-alias": "5.1.1",
+    "@rollup/plugin-terser": "0.4.4",
+    "@types/node": "22.18.11",
+    "eslint": "9.38.0",
+    "rollup": "4.52.5",
+    "sharp": "^0.35.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.1"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "models": [{
+    "name": "八千代辉夜姬",
+    "paths": ["../model/yachiyo/八千代辉夜姬.model3.json"],
+    "message": "模型加载完成！"
+  }],
+  "time": [
+    { "hour": "0-5", "text": "你是夜猫子呀？这么晚还不睡觉，明天起得来嘛" },
+    { "hour": "5-7", "text": "早上好！一日之计在于晨，美好的一天就要开始了" },
+    { "hour": "7-11", "text": "上午好！工作顺利嘛，不要久坐，多起来走动走动哦！" },
+    { "hour": "11-14", "text": "中午了，工作了一个上午，现在是午餐时间！" },
+    { "hour": "14-17", "text": "午后很容易犯困呢，今天的运动目标完成了吗？" },
+    { "hour": "17-19", "text": "傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红~" },
+    { "hour": "19-21", "text": "晚上好，今天过得怎么样？" },
+    { "hour": "21-24", "text": "已经这么晚了呀，早点休息吧，晚安~" }
+  ],
+  "message": {
+    "default": [
+      "你好呀~",
+      "有什么可以帮助你的吗？",
+      "嘿嘿~",
+      "今天天气真不错呢",
+      "不要一直盯着屏幕看，起来活动活动吧~",
+      "你知道吗？久坐对身体不好哦",
+      "想听一个笑话吗？"
+    ],
+    "welcome": "欢迎阅读「$1」",
+    "referrerTemplates": {
+      "baidu": "Hello! 来自百度搜索的朋友<br>你是搜索 <span style=\"color:#0099cc;\">$1</span> 找到的我吗？",
+      "so": "Hello! 来自360搜索的朋友<br>你是搜索 <span style=\"color:#0099cc;\">$1</span> 找到的我吗？",
+      "sogou": "Hello! 来自搜狗搜索的朋友<br>你是搜索 <span style=\"color:#0099cc;\">$1</span> 找到的我吗？",
+      "google": "Hello! 来自谷歌搜索的朋友<br>欢迎阅读「$1」",
+      "default": "Hello! 来自 <span style=\"color:#0099cc;\">$1</span> 的朋友",
+      "none": "欢迎阅读「$1」"
+    },
+    "hitokoto": "这句一言来自 <span style=\"color:#0099cc;\">「$1」</span>",
+    "hoverBody": ["不要乱摸啦~", "干嘛呢你，快把手拿开", "鼠…鼠标放错地方了！"],
+    "tapBody": [
+      "是…是不小心碰到了吧",
+      "萝莉控是什么呀",
+      "你看到我的小熊了吗",
+      "再摸的话我可要报警了！",
+      "110吗，这里有个变态一直在摸我"
+    ],
+    "copy": "你都复制了些什么呀，转载要记得加上出处哦",
+    "console": "哈哈，你打开了控制台，是想要看看我的秘密吗？",
+    "visibilitychange": "你终于回来了~",
+    "goodbye": "我们还能再见面的吧…",
+    "photo": "照好了嘛，是不是很可爱呢？",
+    "changeSuccess": "我的新衣服好看嘛",
+    "changeFail": "我还没有其他衣服呢"
+  },
+  "mouseover": [
+    { "selector": "#waifu-toggle", "text": ["点击可以显示/隐藏看板娘哦"] },
+    { "selector": "#waifu-tool-hitokoto", "text": ["要来一句一言吗？"] },
+    { "selector": "#waifu-tool-settings", "text": ["嗯··· 要切换看板娘吗？"] },
+    { "selector": "#waifu-tool-settings", "text": ["喜欢换装 Play 吗？"] },
+    { "selector": "#waifu-tool-photo", "text": ["要拍张纪念照片吗？"] },
+    { "selector": "#waifu-tool-info", "text": ["这里有关于我的信息呢"] },
+    { "selector": "#waifu-tool-quit", "text": ["你不喜欢我了吗..."] },
+    { "selector": "#waifu-head", "text": ["干嘛呢你，快把手拿开", "鼠…鼠标放错地方了！"] }
+  ],
+  "click": [
+    {
+      "selector": "#waifu-head",
+      "text": [
+        "是…是不小心碰到了吧",
+        "萝莉控是什么呀",
+        "你看到我的小熊了吗",
+        "再摸的话我可要报警了！",
+        "110吗，这里有个变态一直在摸我"
+      ]
+    }
+  ],
+  "seasons": [
+    { "date": "01/01", "text": ["<span style=\"color:#0099cc;\">元旦</span>了呢，新的一年又开始了，今年是{year}年~"] },
+    { "date": "02/14", "text": ["又是一年<span style=\"color:#0099cc;\">情人节</span>，{year}年找到对象了嘛~"] },
+    { "date": "03/08", "text": ["今天是<span style=\"color:#0099cc;\">妇女节</span>！"] },
+    { "date": "03/12", "text": ["今天是<span style=\"color:#0099cc;\">植树节</span>，要保护环境呀"] },
+    { "date": "04/01", "text": ["悄悄告诉你一个秘密~<span style=\"background-color:#34495e;\">今天是愚人节，不要被骗了哦~</span>"] },
+    { "date": "05/01", "text": ["今天是<span style=\"color:#0099cc;\">五一劳动节</span>，计划好假期去哪里了吗~"] },
+    { "date": "06/01", "text": ["<span style=\"color:#0099cc;\">儿童节</span>了呢，快活的时光总是短暂，要是永远长不大该多好啊…"] },
+    { "date": "09/10", "text": ["<span style=\"color:#0099cc;\">教师节</span>，在学校要给老师问声好呀~"] },
+    { "date": "10/01", "text": ["<span style=\"color:#0099cc;\">国庆节</span>，祝祖国生日快乐！"] },
+    { "date": "12/20-12/31", "text": ["这几天是<span style=\"color:#0099cc;\">圣诞节</span>，Merry Christmas~"] }
+  ]
+}
