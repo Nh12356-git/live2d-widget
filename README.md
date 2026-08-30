@@ -283,6 +283,61 @@ server {
 **如何调整模型大小/位置？**
 修改 `build/widget.js` 中 `applyAutoScale` 的 `baseW` / `baseH`，或调整 `window.__live2dModelOffset` 的偏移值。
 
+## 致谢
+
+本项目基于 [stevenjoezhang/live2d-widget](https://github.com/stevenjoezhang/live2d-widget) 进行二次开发，在此向原作者表示感谢。
+
+## 更多
+
+代码自这篇博文修改而来：
+
+https://www.fghrsh.net/post/123.html
+
+更多内容可以参考：
+
+- https://nocilol.me/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-02
+- https://github.com/guansss/pixi-live2d-display
+
+更多模型仓库：
+
+- https://github.com/zenghongtu/live2d-model-assets
+
+除此之外，还有桌面版本：
+
+- https://github.com/TSKI433/hime-display
+- https://github.com/amorist/platelet
+- https://github.com/akiroz/Live2D-Widget
+- https://github.com/zenghongtu/PPet
+- https://github.com/LikeNeko/L2dPetForMac
+
+以及 Wallpaper Engine：
+
+- https://github.com/guansss/nep-live2d
+
+Live2D 官方网站：
+
+https://www.live2d.com/en/
+
 ## 许可证
 
-[GPL-3.0](LICENSE)
+本仓库并不包含任何模型，用作展示的所有 Live2D 模型、图片、动作数据等版权均属于其原作者，仅供研究学习，不得用于商业用途。
+
+本仓库的代码（不包括受 Live2D Proprietary Software License 和 Live2D Open Software License 约束的部分）基于 GNU General Public License v3 协议开源：
+
+http://www.gnu.org/licenses/gpl-3.0.html
+
+Live2D 相关代码的使用请遵守对应的许可：
+
+**Live2D Cubism SDK 2.1 的许可证：**
+
+[Live2D SDK License Agreement (Public)](https://docs.google.com/document/d/10tz1WrycskzGGBOhrAfGiTsgmyFy8D9yHx9r_PsN8I/)
+
+**Live2D Cubism SDK 5 的许可证：**
+
+Live2D Cubism Core は Live2D Proprietary Software License で提供しています。
+
+https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_cn.html
+
+Live2D Cubism Components は Live2D Open Software License で提供しています。
+
+https://www.live2d.com/eula/live2d-open-software-license-agreement_cn.html
